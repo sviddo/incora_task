@@ -8,3 +8,7 @@ def get_user_data(user: User):
     user_data['phone'] = str(user.phone)
 
     return user_data
+
+
+class CustomException(Exception):
+    """custom exception class"""
