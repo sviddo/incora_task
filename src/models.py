@@ -10,7 +10,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=20, blank=True, validators=[alphabetical_validator])
     email = models.EmailField(max_length=30, blank=False, unique=True, validators=[EmailValidator])
     phone = PhoneNumberField(blank=True)
-    password = models.CharField(max_length=50, blank=False)
+    password = models.CharField(max_length=100, blank=False)
 
     class Meta:
         db_table = "users"
