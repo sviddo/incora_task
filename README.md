@@ -3,10 +3,12 @@
 
 **How to run the application? Follow next steps:**
 
-*Create .env file and populate it with varibles as shown in .env.sample one*, after that type next commands in terminal:
 ```
 git clone https://github.com/sviddo/incora_task.git
 cd incora_task
+```
+*Create* .env *file and populate it with varibles as shown in .env.sample one*, after that type next commands in terminal:
+```
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
