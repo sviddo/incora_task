@@ -1,9 +1,11 @@
 import json
+from django.shortcuts import get_object_or_404
 import jwt
 import datetime
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
 from .models import User
@@ -35,7 +37,7 @@ def login(request):
     
         if check_password(login_data['password'], user.password):
             payload = {
-                "email": login_data['email'],
+                "id": user.id,
                 "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
                 "iat": datetime.datetime.utcnow()
             }
@@ -53,10 +55,19 @@ def login(request):
         return Response(str(exc), status=status.HTTP_403_FORBIDDEN)
 
 
-@api_view(['GET'])
-def get_user(request, id: int):
-    user = User.objects.filter(pk=id).first()
-    if user:
-        return Response(get_user_data(user), status=status.HTTP_200_OK)
-    else:
-        return Response(["No such user!"], status=status.HTTP_404_NOT_FOUND)
+
+class SingleUser(APIView):
+    def get(self, request, id: int):
+        user = User.objects.filter(pk=id).first()
+        if user:
+            return Response(get_user_data(user), status=status.HTTP_200_OK)
+        else:
+            return Response(["No such user!"], status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, id: int):
+        user = get_object_or_404(User, pk=id)
+        user_serializer = UserSerializer(user, data=request.data, partial=True)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response(get_user_data(user), status=status.HTTP_202_ACCEPTED)
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
