@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'incora_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbtest', 
+        'NAME': os.environ.get("DB_NAME"), 
         'USER': os.environ.get("DB_USER"),
         'PASSWORD': os.environ.get("PASSWORD"),
         'HOST': '127.0.0.1', 
