@@ -5,8 +5,8 @@
 
 *Create .env file and populate it with varibles as shown in .env.sample one*, after that type next commands in terminal:
 ```
-git clone https://github.com/sviddo/btc_convertor.git
-cd btc_convertor
+git clone https://github.com/sviddo/incora_task.git
+cd incora_task
 python manage.py migrate
 python manage.py runserver
 ```
